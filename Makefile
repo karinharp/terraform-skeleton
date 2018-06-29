@@ -29,7 +29,9 @@ env:
 	@echo "AWS_SECRET_ACCESS_KEY ?= ${AWS_SECRET_ACCESS_KEY}" >> Makefile.env
 
 # 環境変数にexportしてない場合は、生成後に手動で書き換えること
-terraform.tfvars:
+# ディレクトリごとコピーした場合、旧定義残留してないか注意
+# Makefile.env 書き換えてれば更新されるように依存関係は足したので、多分大丈夫...
+terraform.tfvars: Makefile.env
 	echo "aws_access_key = \"${AWS_ACCESS_KEY_ID}\"" > terraform.tfvars
 	echo "aws_secret_key = \"${AWS_SECRET_ACCESS_KEY}\"" >> terraform.tfvars
 	echo "tfstate_bucket = \"${TFSTATE_BUCKET}\"" >> terraform.tfvars
